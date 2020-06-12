@@ -1,2 +1,2 @@
 # vue-express-auth
-Boiler plate for VueJS fronted, Express backend, with user authentication
+Boiler plate for VueJS frontend, Express backend, with user authentication

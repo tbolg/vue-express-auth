@@ -19,6 +19,6 @@
 </template>
 
 <style>
-@import 'https://bootswatch.com/4/darkly/bootstrap.min.css';
+@import 'https://bootswatch.com/4/flatly/bootstrap.min.css';
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
 </style>

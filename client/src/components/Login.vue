@@ -17,8 +17,13 @@
 
               <div class="form-label-group" style="margin-bottom: 10px;">
                 <label for="inputPassword">Password</label>
-                <input v-on:input="invalidInput=false" v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input v-on:input="invalidInput=false" v-model="password" :type="type" id="inputPassword" class="form-control" placeholder="Password" required>
+                <div class="custom-control custom-checkbox" style="margin-top: 5px;">
+                  <input @click="showPassword()" type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                  <label class="custom-control-label" for="customCheck1">Show Password</label>
+                </div>
               </div>
+              <hr>
               <button @click.prevent="login()" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
                 <span>Login</span>
               </button>
@@ -48,26 +53,34 @@ export default {
     return {
       password: '',
       email: '',
-      error: null
+      error: null,
+      type: 'password',
     }
   },
   methods: {
+      showPassword() {
+        if (this.type == 'password') {
+          this.type = 'text';
+        } else {
+          this.type = 'password';
+        }
+      },
       navigateToRegister() {
-           this.$router.push('/register');
+        this.$router.push('/register');
       },
       async login() {
-          console.log('attempting login')
-          try {
-                const response = await AuthenticationService.login({
-                    email: this.email,
-                    password: this.password
-                })
-                //this.$store.dispatch('setToken', response.data.token);
-                //this.$store.dispatch('setUser', response.data.user);
-                //this.$router.push('/');
-          } catch(error) {
-                console.log(error);
-          }
+        try {
+          const response = await AuthenticationService.login({
+            email: this.email,
+            password: this.password
+          })
+          this.$store.dispatch('setToken', response.data.token);
+          this.$store.dispatch('setUser', response.data.user);
+          console.log(response.data.token)
+          this.$router.push('/');
+        } catch(error) {
+          console.log(error);
+        }
       },
   }
 }

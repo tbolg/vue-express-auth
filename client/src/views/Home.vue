@@ -1,8 +1,6 @@
 <template>
   <div class="home" style="padding: 20px;">
-    <keep-alive>
     <h1> {{ "Welcome " + user.firstName + " " + user.lastName + "!" }} </h1>
-    </keep-alive>
   </div>
 </template>
 

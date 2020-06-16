@@ -9,28 +9,34 @@
             <h5 class="card-title text-center">Sign In</h5>
             <br>
             <form v-on:submit.prevent="loginUser()" class="form-signin">
-              <p v-if="error" class="text-danger">Incorrect username or password</p>
+              <p v-if="invalidCredentials" class="text-danger">Incorrect login details.</p>
               <div class="form-label-group" style="margin-bottom: 10px;">
                 <label for="inputEmail">Email address</label>
-                <input v-on:input="invalidInput=false" v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                <input v-on:input="setInvalidCredentials()" v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
               </div>
-
               <div class="form-label-group" style="margin-bottom: 10px;">
                 <label for="inputPassword">Password</label>
-                <input v-on:input="invalidInput=false" v-model="password" :type="type" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input v-on:input="setInvalidCredentials()" v-model="password" :type="type" id="inputPassword" class="form-control" placeholder="Password" required>
                 <div class="custom-control custom-checkbox" style="margin-top: 5px;">
                   <input @click="showPassword()" type="checkbox" class="custom-control-input" id="customCheck1" checked="">
-                  <label class="custom-control-label" for="customCheck1">Show Password</label>
+                  <label class="custom-control-label" for="customCheck1">Hide Password</label>
                 </div>
               </div>
               <hr>
               <button @click.prevent="login()" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
-                <span>Login</span>
+                <span v-if="!loading">Login</span>
+                <span
+                  v-else
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
               </button>
               <hr class="my-4">
             </form>
-            <div style="text-align: center;">
+            <div style="text-align: center; justify-content: space-between;">
                 <button @click="navigateToRegister()" type="button" class="btn btn-link">Register</button>
+                <button @click="navigateToRegister()" type="button" class="btn btn-link">Forgot Password</button>
             </div>
           </div>
         </div>
@@ -53,8 +59,9 @@ export default {
     return {
       password: '',
       email: '',
-      error: null,
       type: 'password',
+      loading: false,
+      invalidCredentials: false,
     }
   },
   methods: {
@@ -65,20 +72,26 @@ export default {
           this.type = 'password';
         }
       },
+      setInvalidCredentials() {
+        this.invalidCredentials = false;
+      },
       navigateToRegister() {
         this.$router.push('/register');
       },
       async login() {
         try {
+          this.loading = true;
           const response = await AuthenticationService.login({
             email: this.email,
             password: this.password
-          })
+          });
+          this.loading = false;
           this.$store.dispatch('setToken', response.data.token);
           this.$store.dispatch('setUser', response.data.user);
-          console.log(response.data.token)
-          this.$router.push('/');
+          this.$router.push('/home');
         } catch(error) {
+          this.invalidCredentials = true;
+          this.loading = false;
           console.log(error);
         }
       },

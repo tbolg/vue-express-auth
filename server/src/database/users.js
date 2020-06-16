@@ -22,20 +22,6 @@ function createUser(user) {
    
 }
 
-function checkPassword(email, password) {
-    
-    users.findOne({email: email}).then(doc => {
-        // Check password hash
-        return bcrypt.compare(password, doc.password);
-    
-    }).catch(err => {
-        // User isn't in database
-        console.log("user does not exist")
-        
-    })
-    
-}
-
 function getAllUsers() {
     return users.find();
 }
@@ -44,10 +30,14 @@ function clearUsers() {
     return users.remove();
 }
 
+function getUserById(id) {
+    return users.find({_id: id});
+}
+
 module.exports = {
     createUser,
     getAllUsers,
     clearUsers,
-    checkPassword,
     getUser,
+    getUserById
 }

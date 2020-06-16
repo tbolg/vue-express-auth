@@ -8,22 +8,27 @@
             <h3 class="card-title text-center">MEVN Boilerplate</h3>
             <h5 class="card-title text-center">Register</h5>
             <form v-on:submit.prevent="register()" class="form-signin">
+                <p v-if="userDetailsTaken" class="text-danger">Username already in use.</p>
                 <div class="form-label-group" style="margin-bottom: 10px;">
                     <label for="inputFirstName">First Name</label>
-                    <input v-model="firstName" type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
+                    <input v-on:input="setUserDetailsTaken()" v-model="firstName" type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
                 </div>
                 <div class="form-label-group" style="margin-bottom: 10px;">
                     <label for="inputLastName">Last Name</label>
-                    <input v-model="lastName" type="text" id="inputLastName" class="form-control" placeholder="Last Name" required autofocus>
+                    <input v-on:input="setUserDetailsTaken()" v-model="lastName" type="text" id="inputLastName" class="form-control" placeholder="Last Name" required autofocus>
                 </div>
                 <div class="form-label-group" style="margin-bottom: 10px;">
                     <label for="inputEmail">Email address</label>
-                    <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                    <input v-on:input="setUserDetailsTaken()" v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
                 </div>
 
                 <div class="form-label-group" style="margin-bottom: 10px;">
                     <label for="inputPassword">Password</label>
-                    <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <input v-on:input="setUserDetailsTaken()" v-model="password" :type="type" id="inputPassword" class="form-control" placeholder="Password" required>
+                </div>
+                <div class="custom-control custom-checkbox" style="margin-top: 5px;">
+                  <input @click="showPassword()" type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                  <label class="custom-control-label" for="customCheck1">Hide Password</label>
                 </div>
               <hr>
               <button @click.prevent="register()" class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
@@ -56,9 +61,21 @@ export default {
           lastName: "",
           email: "",
           password: "",
+          type: "password",
+          userDetailsTaken: false,
       }
   },
   methods: {
+    setUserDetailsTaken() {
+      this.userDetailsTaken = false;
+    },
+    showPassword() {
+      if (this.type == 'password') {
+        this.type = 'text';
+      } else {
+        this.type = 'password';
+      }
+    },
     navigateToLogin() {
         this.$router.push('/login');
     },
@@ -75,7 +92,8 @@ export default {
             //this.$store.dispatch('setUser', response.data.user);
             this.navigateToLogin();
         } catch (error) {
-            console.log(error);
+          this.userDetailsTaken = true;
+          console.log(error);
         }
     }
   }

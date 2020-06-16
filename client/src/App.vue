@@ -1,22 +1,51 @@
 <template>
   <div id="app">
-    <nav v-if="this.$route.path !== '/login' && this.$route.path !== '/register'" class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">MEVN Boilerplate</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
+    <b-navbar toggleable="lg" type="" v-if="this.$route.path !== '/login' && this.$route.path !== '/register' && this.$route.path != '/'" class="navbar-light bg-light">
+      <b-navbar-brand href="#">MEVN Boilerplate</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-             <router-link class="nav-link" to="/">Home</router-link>
+             <router-link v-bind:class="{'active': this.$route.path == '/home'}" class="nav-link" to="/home">Home</router-link>
+          </li>
+          <li class="nav-item">
+             <router-link v-bind:class="{'active': this.$route.path == '/saved'}" class="nav-link" to="/saved">Saved</router-link>
           </li>
         </ul>  
-      </div>
-    </nav>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown right>
+          <!-- Using 'button-content' slot -->
+          <template v-slot:button-content>
+            <em>User</em>
+          </template>
+          <b-dropdown-item v-if="this.$route.path !== '/profile'" @click="goToProfile()">Profile</b-dropdown-item>
+          <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <router-view></router-view>
   </div>
 </template>
+
+<script>
+  import store from './store/store'
+
+  export default {
+    name: "App",
+    methods: {
+      logout() {
+        this.$store.dispatch('clearToken');
+        this.$router.go();
+      },
+      goToProfile() {
+        this.$router.push('/profile');
+      } 
+    }
+  }
+</script>
 
 <style>
 @import 'https://bootswatch.com/4/flatly/bootstrap.min.css';

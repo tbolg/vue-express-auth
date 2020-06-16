@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const config = require('./config/config');
+require('./passport');
 
 const app = express();
 app.use(morgan('combined'));

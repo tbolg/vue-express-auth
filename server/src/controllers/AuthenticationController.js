@@ -4,7 +4,7 @@ const config = require('../config/config');
 const bcrypt = require('bcrypt');
 
 function jwtSignUser (user) {
-    const ONE_WEEK = 60 // * 60 * 24 * 7
+    const ONE_WEEK = 60 * 60 * 24 * 7;
         return jwt.sign(user, config.authentication.jwtSecret, {
             expiresIn: ONE_WEEK
         })
@@ -13,12 +13,27 @@ function jwtSignUser (user) {
 module.exports = {
     async register(req, res) {
         try {
-            const user = req.body;
-            users.createUser(user).then(() => {
-                res.send({
-                    message: "created user"
-                }) 
+            const email = req.body.email;
+            users.getUser(email).then(doc => {
+                if (doc) {
+                    res.status(403).send({
+                        error: "user already exists"
+                    })
+                } else {
+                    const user = req.body;
+                    users.createUser(user).then(doc => {
+                    res.send({
+                        message: "created user",
+                        user: doc
+                    }).catch(err =>  {
+                        console.log(err);
+                    })
             })
+                }
+            }).catch(err => {
+                console.log(err);
+            })
+            
         } catch(err) {
             console.log(err);
         }
@@ -33,9 +48,11 @@ module.exports = {
                     const authenticated = result;
                     if (authenticated) {
                         // Return json token
-                        console.log(users.getUser(email));
+                        
+                        var user = JSON.parse(JSON.stringify(doc));
+                        console.log(user);
                         res.status(200).send({
-                            token: jwtSignUser(doc),
+                            token: jwtSignUser(user),
                             user: doc
                         })
                     } else if (!authenticated) {

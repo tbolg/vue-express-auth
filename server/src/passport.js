@@ -13,7 +13,6 @@ passport.use(
         try {
             const user = await users.getUserById(jwtPayload._id).then(userJson => {
                 if (!userJson) {
-                    console.log("error getting user")
                     return done(new Error(), false);
                 }
                 return done(null, userJson);

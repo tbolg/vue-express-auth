@@ -43,8 +43,8 @@
     </div>
     <div style="padding: 20px;">
         <div class="jumbotron">
-        <h1 class="display-3">MEVN Boilerplate</h1>
-        <p class="lead">This is a simple boilerplate for MongoDB, Express, Vue.js, Node.js, with authentication ready to go!</p>
+        <h3 class="display-4" style="word-wrap: break-word;">MEVN Boilerplate</h3>
+        <p class="lead">This is a simple boilerplate for MongoDB, Express, Vue.js, Node.js, with JWT user authentication ready to go!</p>
         <hr class="my-4">
         <p>Sign up for an account, and login to see it in action. Created by Tomas Bolger.</p>
         <p class="lead">

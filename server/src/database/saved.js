@@ -18,10 +18,15 @@ function deleteById(id) {
     return saved.remove({_id: id});
 }
 
+function getById(id) {
+    return saved.findOne({_id: id});
+}
+
 
 module.exports = {
     saveText,
     getAllText,
     clearAllText,
-    deleteById
+    deleteById,
+    getById
 }

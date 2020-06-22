@@ -1,5 +1,5 @@
 const monk = require('monk');
-const connectionURL = 'localhost/mevnboilerplate';
-const db = monk(connectionURL);
+const uri = 'localhost/mevnboilerplate';
+const db = monk(uri);
 
 module.exports = db;

@@ -1,6 +1,6 @@
 <template>
-  <div class="saved" style="padding: 20px; display: flex; justify-content: space-between;">
-    <div style="width: 60%;">
+  <div class="saved" style="padding: 20px; display: flex;">
+    <div style="width: 1000px;">
         <div class="form-group">
         <label for="exampleTextarea">Input some text to save</label>
         <textarea v-model="textArea" class="form-control" id="exampleTextarea" rows="3"></textarea>

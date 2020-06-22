@@ -48,11 +48,17 @@ module.exports = {
                     const authenticated = result;
                     if (authenticated) {
                         // Return json token
-                        
-                        var user = JSON.parse(JSON.stringify(doc));
-                        console.log(user);
+                        // Only send over required info as part of token
+                        var tokenJson = {
+                            _id: doc._id,
+                            email: doc.email,
+                            firstName: doc.firstName,
+                            lastName: doc.lastName,
+                            created: doc.created
+                        }
+                        console.log(tokenJson);
                         res.status(200).send({
-                            token: jwtSignUser(user),
+                            token: jwtSignUser(tokenJson),
                             user: doc
                         })
                     } else if (!authenticated) {

@@ -3,7 +3,7 @@ const saved = require('../database/saved');
 module.exports = {
     async get(req, res) {
         try {
-            const email = req.params.email;
+            const email = req.user.email
             saved.getAllText(email).then(doc => {
                 res.status(200).send({
                     text: doc
@@ -45,11 +45,24 @@ module.exports = {
     async delete(req, res) {
         try {
             const id = req.params.id;
-            console.log(id)
-            saved.deleteById(id).then(doc => {
-                res.status(200).send({
-                    messages: "deleted text"
-                })
+            saved.getById(id).then(doc => {
+                if (doc.email == req.user.email) {
+                    // Doc belongs to user, so delete the text
+                    saved.deleteById(id).then(doc => {
+                        res.status(200).send({
+                            messages: "deleted text"
+                        })
+                    }).catch(err => {
+                        res.status(403).send({
+                            error: "error deleting text"
+                        })
+                    })
+                } else {
+                    // Doc belongs to someone else, throw error
+                    res.status(403).send({
+                        error: "you are not not authorised to access this content"
+                    })
+                }
             }).catch(err => {
                 res.status(403).send({
                     error: "error deleting text"

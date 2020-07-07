@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "deploy": "aws --region ap-southeast-2 --profile mevn-boiler-deployer s3 sync ./dist s3://mevn-boiler --delete"
   },
   "dependencies": {
     "axios": "^0.19.2",

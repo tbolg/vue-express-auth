@@ -48,7 +48,7 @@
         <hr class="my-4">
         <p>Sign up for an account, and login to see it in action. Created by Tomas Bolger.</p>
         <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Github</a>
+            <a class="btn btn-primary btn-lg" href="https://github.com/tbolg/vue-express-auth" role="button">Github</a>
         </p>
     </div>
     </div>

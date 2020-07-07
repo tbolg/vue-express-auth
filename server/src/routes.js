@@ -7,6 +7,13 @@ const ProfileController = require('./controllers/ProfileController');
 const authPolicy = require('./policies/reqAuthorized');
 
 module.exports = (app) => {
+    // Sanity test
+    app.get('/helloworld', (req, res) => {
+        res.send({
+            message: "hello world!"
+        })
+    }) 
+1
     // Auth
     app.post('/register', AuthenticationController.register);
     app.post('/login', AuthenticationController.login);
@@ -18,4 +25,5 @@ module.exports = (app) => {
 
     // Profile
     app.post('/changePassword', authPolicy, ProfileController.changePassword);
+
 }

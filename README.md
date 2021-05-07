@@ -1,6 +1,5 @@
 # vue-express-auth
-Boiler plate for VueJS frontend, Express backend, with user authentication
-See a live version here -> http://d1mvhjyeh0dwba.cloudfront.net/
+Boiler plate for VueJS frontend, Express backend, with JWT user authentication
 
 ## Project setup client-side
 ```
